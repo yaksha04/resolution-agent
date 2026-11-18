@@ -34,37 +34,7 @@ Everything runs locally with a mock database — no external APIs or paid servic
 ---
 
 ## System Architecture
-┌─────────────────────┐
-│ Streamlit UI │ ← User enters request + Order ID
-│ (app.py) │
-└──────────┬──────────┘
-│
-▼
-┌─────────────────────┐
-│ Resolution Agent │ ← Controls the decision loop
-│ (agent.py) │
-└──────────┬──────────┘
-│
-▼
-┌─────────────────────┐
-│ Safe Dispatcher │ ← Whitelist + argument validation
-│ (dispatcher.py) │
-└──────────┬──────────┘
-│
-┌─────┴─────┬─────────────┬──────────────┐
-▼ ▼ ▼ ▼
-┌─────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────┐
-│ lookup_ │ │ check_ │ │ process_ │ │ send_ │
-│ order │ │ inventory│ │ refund │ │ notification │
-└────┬────┘ └────┬─────┘ └────┬─────┘ └──────┬───────┘
-│ │ │ │
-└───────────┴────────────┴───────────────┘
-│
-▼
-┌─────────────────┐
-│ Mock Database │
-│ (mock_db.py) │
-└─────────────────┘
+<img width="452" height="310" alt="image" src="https://github.com/user-attachments/assets/fee52b55-25c8-4b61-bc70-852c7375d74e" />
 
 
 
@@ -83,51 +53,7 @@ Everything runs locally with a mock database — no external APIs or paid servic
 
 
 ## Agent Workflow (Flowchart)
-Start
-│
-▼
-User provides Order ID + issue description
-│
-▼
-┌─────────────────────────┐
-│ 1. lookup_order(order_id) │
-└──────────┬──────────────┘
-│
-Order found?
-/
-No Yes
-│ │
-▼ ▼
-Return error Eligible for exchange?
-message /
-No Yes
-│ │
-▼ ▼
-Process refund ┌──────────────────────┐
-│ 2. check_inventory() │
-└──────────┬───────────┘
-│
-Stock > 0?
-/
-Yes No
-│ │
-▼ ▼
-Confirm exchange Process refund
-│ │
-└─────┬─────┘
-▼
-┌──────────────────────┐
-│ 3. send_notification │
-└──────────┬───────────┘
-▼
-Return final summary
-│
-▼
-End
-
-Text
-
----
+<img width="193" height="330" alt="image" src="https://github.com/user-attachments/assets/bcaffbbe-0ae4-4123-9dd9-70d4c153fa58" />
 
 ## Tool Definitions
 
@@ -172,7 +98,7 @@ Text
 - **Bounded execution**: The agent follows a fixed, safe sequence (no unbounded loops)  
 - **Structured outputs**: Every tool returns `success`, `error`, and `data` fields
 
----
+
 
 ## Project Structure
 resolution-agent/
